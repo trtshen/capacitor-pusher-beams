@@ -9,4 +9,16 @@ export interface PusherBeamsPlugin {
     }): Promise<{
         value: string;
     }>;
+    addDeviceInterest(options: {
+        interest: string;
+    }): Promise<{
+        message: string;
+    }>;
+    setUserID(options: {
+        beamsAuthURL: string;
+        userID: string;
+        headers: JSON;
+    }): Promise<{
+        message: string;
+    } | string>;
 }

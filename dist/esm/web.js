@@ -9,6 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { WebPlugin } from '@capacitor/core';
 export class PusherBeamsWeb extends WebPlugin {
+    addDeviceInterest(options) {
+        console.log(options);
+        throw new Error("Method not implemented.");
+    }
+    setUserID(options) {
+        console.log(options);
+        throw new Error("Method not implemented.");
+    }
     constructor() {
         super({
             name: 'PusherBeams',

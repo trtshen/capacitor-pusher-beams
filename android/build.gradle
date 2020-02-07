@@ -63,4 +63,8 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
 }
 
-apply plugin: 'com.google.gms.google-services'
+configurations {
+    compile.exclude group: "junit", module: "junit"
+}
+
+//apply plugin: 'com.google.gms.google-services'
