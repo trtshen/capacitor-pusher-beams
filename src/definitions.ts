@@ -8,7 +8,7 @@ export interface PusherBeamsPlugin {
   echo(options: { value: string }): Promise<{ value: string }>;
   // start(): Promise<{}>
   addDeviceInterest(options: { interest: string }): Promise<{ message: string }>;
-  // removeDeviceInterest(options: { interest: string }): Promise<{ success: boolean }>;
+  removeDeviceInterest(options: { interest: string }): Promise<{ success: boolean }>;
   // getDeviceInterests(options: { interests: Array<String> }): Promise<{ interests: Array<String> }>;
   // setDeviceInterests(): Promise<{ success: boolean }>;
   // clearDeviceInterests(): Promise<{ success: boolean }>;

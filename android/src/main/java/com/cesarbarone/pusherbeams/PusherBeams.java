@@ -1,5 +1,7 @@
 package com.cesarbarone.pusherbeams;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.getcapacitor.JSObject;
@@ -10,6 +12,7 @@ import com.getcapacitor.PluginMethod;
 
 import com.pusher.pushnotifications.BeamsCallback;
 import com.pusher.pushnotifications.PushNotifications;
+import com.pusher.pushnotifications.PushNotificationsInstance;
 import com.pusher.pushnotifications.PusherCallbackError;
 import com.pusher.pushnotifications.auth.AuthData;
 import com.pusher.pushnotifications.auth.AuthDataGetter;
@@ -29,9 +32,17 @@ public class PusherBeams extends Plugin {
 
         JSObject ret = new JSObject();
         ret.put("value", value);
+
+//        Context ctx = this.getActivity().getApplicationContext();
+        // PushNotificationsInstance start = PushNotifications.start(call.getApplicationContext(), "f5df7283-144c-458c-ac23-622b2d47eed9");
+        PushNotifications.addDeviceInterest(value); // dynamic interest code
+        // PushNotifications.addDeviceInterest("testing-interest");
+
+        Log.i("PusherBeams", "Successfully subscribed to 'testing-interest'");
         call.success(ret);
     }
 
+//    // this step should be done inside MainActivity.java where we can extend "capacitor's BridgeActivity"
 //    @PluginMethod()
 //    public void start(PluginCall call) {
 //        String instanceId = "d774be36-78b4-4efb-95ce-cf406c9d885f";
