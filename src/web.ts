@@ -25,7 +25,7 @@ export class PusherBeamsWeb extends WebPlugin implements PusherBeamsPlugin {
 
   async removeDeviceInterest(options: { interest: string }): Promise<{ success: boolean }> {
     console.log('removeDeviceInterest::', options);
-    return options;
+    return { success : true };
   };
 }
 

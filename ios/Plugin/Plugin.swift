@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import PushNotifications
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -12,6 +13,63 @@ public class PusherBeams: CAPPlugin {
         let value = call.getString("value") ?? ""
         call.success([
             "value": value
+        ])
+    }
+    
+    @objc func addDeviceInterest(_ call: CAPPluginCall) {
+        let interest = call.getString("interest") ?? ""
+        
+        try? self.beamsClient.addDeviceInterest(interest: interest)
+        call.success([
+            "interest": interest
+        ])
+    }
+    
+    @objc func setDeviceInterests(_ call: CAPPluginCall) {
+        let interests = call.getString("interests") ?? ""
+        
+        try? self.beamsClient.setDeviceInterests(interest: interests)
+        call.success([
+            "interests": interests
+        ])
+    }
+    
+    @objc func setUserId(_ call: CAPPluginCall) {
+        let userId = call.getString("userId") ?? ""
+        let tokenProvider = BeamsTokenProvider(authURL: "<YOUR_BEAMS_AUTH_URL_HERE>") { () -> AuthData in
+          let sessionToken = "SESSION-TOKEN"
+          let headers = ["Authorization": "Bearer \(sessionToken)"] // Headers your auth endpoint needs
+          let queryParams: [String: String] = [:] // URL query params your auth endpoint needs
+          return AuthData(headers: headers, queryParams: queryParams)
+        }
+
+        self.beamsClient.setUserId(userId, tokenProvider: tokenProvider, completion: { error in
+          guard error == nil else {
+              print(error.debugDescription)
+              return
+          }
+
+          print("Successfully authenticated with Pusher Beams")
+        })
+    }
+    
+    @objc func removeDeviceInterest(_ call: CAPPluginCall) {
+        let interest = call.getString("interest") ?? ""
+        self.beamsClient.removeDeviceInterest(interest)
+        call.success()
+    }
+    
+    @objc func getDeviceInterests(_ call: CAPPluginCall) {
+        let interests = self.beamsClient.getDeviceInterests(interest)
+        call.success([
+            "interests": interests
+        ])
+    }
+    
+    @objc func clearDeviceInterests(_ call: CAPPluginCall) {
+        try? self.beamsClient.clearDeviceInterests()
+        call.success([
+            "interests": interests
         ])
     }
 }

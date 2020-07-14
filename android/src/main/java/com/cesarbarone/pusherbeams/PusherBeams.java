@@ -25,6 +25,58 @@ import java.util.Set;
 
 @NativePlugin()
 public class PusherBeams extends Plugin {
+    private static BeamsTokenProvider token;
+/*
+    public static BeamsTokenProvider setupTokenProvider(PluginCall call) {
+
+        String userID = call.getString("userID");
+        JSObject headers = call.getObject("headers");
+        final HashMap headersHashMap = hashMapOf(headers);
+
+        if (token == null) {
+            BeamsTokenProvider token = new BeamsTokenProvider(
+                url,
+                // url,
+                new AuthDataGetter() {
+                    @Override
+                    public AuthData getAuthData() {
+                        HashMap<String, String> queryParams = new HashMap<>();
+                        return new AuthData(
+                                headersHashMap,
+                                queryParams
+                        );
+                    }
+                }
+            );
+        }
+
+        return token;
+    }*/
+
+    public static BeamsTokenProvider setupTokenProvider(PluginCall call) {
+        String userID = call.getString("userID");
+        JSObject headers = call.getObject("headers");
+        final HashMap headersHashMap = hashMapOf(headers);
+
+        if (token == null) {
+            BeamsTokenProvider token = new BeamsTokenProvider(
+                "http://192.168.1.188:8080/pusher/beams-auth",
+                // url,
+                new AuthDataGetter() {
+                    @Override
+                    public AuthData getAuthData() {
+                        HashMap<String, String> queryParams = new HashMap<>();
+                        return new AuthData(
+                                headersHashMap,
+                                queryParams
+                        );
+                    }
+                }
+            );
+        }
+
+        return token;
+    }
 
     @PluginMethod()
     public void echo(PluginCall call) {
@@ -32,12 +84,7 @@ public class PusherBeams extends Plugin {
 
         JSObject ret = new JSObject();
         ret.put("value", value);
-
-//        Context ctx = this.getActivity().getApplicationContext();
-        // PushNotificationsInstance start = PushNotifications.start(call.getApplicationContext(), "f5df7283-144c-458c-ac23-622b2d47eed9");
-        PushNotifications.addDeviceInterest(value); // dynamic interest code
-        // PushNotifications.addDeviceInterest("testing-interest");
-
+        PushNotifications.addDeviceInterest(value);
         Log.i("PusherBeams", "Successfully subscribed to 'testing-interest'");
         call.success(ret);
     }
@@ -96,24 +143,26 @@ public class PusherBeams extends Plugin {
 
     @PluginMethod()
     public void setUserID(final PluginCall call) {
-        String beamsAuthURl = call.getString("beamsAuthURL");
+        // String beamsAuthURl = call.getString("beamsAuthURL");
         String userID = call.getString("userID");
         JSObject headers = call.getObject("headers");
         final HashMap headersHashMap = hashMapOf(headers);
 
         BeamsTokenProvider tokenProvider = new BeamsTokenProvider(
-            beamsAuthURl,
-            new AuthDataGetter() {
-                @Override
-                public AuthData getAuthData() {
-                    HashMap<String, String> queryParams = new HashMap<>();
-                    return new AuthData(
-                            headersHashMap,
-                            queryParams
-                    );
+                "http://192.168.1.188:8080/pusher/beams-auth",
+                // url,
+                new AuthDataGetter() {
+                    @Override
+                    public AuthData getAuthData() {
+                        HashMap<String, String> queryParams = new HashMap<>();
+                        return new AuthData(
+                                headersHashMap,
+                                queryParams
+                        );
+                    }
                 }
-            }
-        );
+            );
+        // BeamsTokenProvider tokenProvider = setupTokenProvider(beamsAuthURl);
 
         PushNotifications.setUserId(userID, tokenProvider, new BeamsCallback<Void, PusherCallbackError>(){
             @Override
@@ -134,7 +183,7 @@ public class PusherBeams extends Plugin {
     }
 
     @PluginMethod()
-    public  void clearAllState(PluginCall call) {
+    public void clearAllState(PluginCall call) {
         PushNotifications.clearAllState();
         JSObject ret = new JSObject();
         ret.put("success", false);
@@ -142,7 +191,7 @@ public class PusherBeams extends Plugin {
     }
 
     @PluginMethod()
-    public  void stop(PluginCall call) {
+    public void stop(PluginCall call) {
         PushNotifications.stop();
         JSObject ret = new JSObject();
         ret.put("success", false);

@@ -1,6 +1,7 @@
 import { WebPlugin } from '@capacitor/core';
 import { PusherBeamsPlugin } from './definitions';
 export declare class PusherBeamsWeb extends WebPlugin implements PusherBeamsPlugin {
+    constructor();
     addDeviceInterest(options: {
         interest: string;
     }): Promise<{
@@ -13,11 +14,15 @@ export declare class PusherBeamsWeb extends WebPlugin implements PusherBeamsPlug
     }): Promise<string | {
         message: string;
     }>;
-    constructor();
     echo(options: {
         value: string;
     }): Promise<{
         value: string;
+    }>;
+    removeDeviceInterest(options: {
+        interest: string;
+    }): Promise<{
+        success: boolean;
     }>;
 }
 declare const PusherBeams: PusherBeamsWeb;

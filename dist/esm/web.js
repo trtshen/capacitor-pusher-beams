@@ -9,6 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { WebPlugin } from '@capacitor/core';
 export class PusherBeamsWeb extends WebPlugin {
+    constructor() {
+        super({
+            name: 'PusherBeams',
+            platforms: ['web']
+        });
+    }
     addDeviceInterest(options) {
         console.log(options);
         throw new Error("Method not implemented.");
@@ -17,18 +23,19 @@ export class PusherBeamsWeb extends WebPlugin {
         console.log(options);
         throw new Error("Method not implemented.");
     }
-    constructor() {
-        super({
-            name: 'PusherBeams',
-            platforms: ['web']
-        });
-    }
     echo(options) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('ECHO', options);
+            console.log('ECHO::', options);
             return options;
         });
     }
+    removeDeviceInterest(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('removeDeviceInterest::', options);
+            return { success: true };
+        });
+    }
+    ;
 }
 const PusherBeams = new PusherBeamsWeb();
 export { PusherBeams };
