@@ -9,6 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
+  pod 'PushNotifications'
 end
 
 target 'PluginTests' do

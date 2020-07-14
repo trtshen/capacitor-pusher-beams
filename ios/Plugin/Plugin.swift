@@ -8,6 +8,7 @@ import PushNotifications
  */
 @objc(PusherBeams)
 public class PusherBeams: CAPPlugin {
+    let beamsClient = PushNotifications.shared
     
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
@@ -26,9 +27,12 @@ public class PusherBeams: CAPPlugin {
     }
     
     @objc func setDeviceInterests(_ call: CAPPluginCall) {
-        let interests = call.getString("interests") ?? ""
+        guard let interests = call.options["interests"] as? [String] else {
+            call.reject("Interests must be provided in array type")
+            return
+        }
         
-        try? self.beamsClient.setDeviceInterests(interest: interests)
+        try? self.beamsClient.setDeviceInterests(interests: interests)
         call.success([
             "interests": interests
         ])
@@ -55,12 +59,12 @@ public class PusherBeams: CAPPlugin {
     
     @objc func removeDeviceInterest(_ call: CAPPluginCall) {
         let interest = call.getString("interest") ?? ""
-        self.beamsClient.removeDeviceInterest(interest)
+        try? self.beamsClient.removeDeviceInterest(interest: interest)
         call.success()
     }
     
     @objc func getDeviceInterests(_ call: CAPPluginCall) {
-        let interests = self.beamsClient.getDeviceInterests(interest)
+        let interests: [String] = self.beamsClient.getDeviceInterests() ?? []
         call.success([
             "interests": interests
         ])
@@ -68,8 +72,6 @@ public class PusherBeams: CAPPlugin {
     
     @objc func clearDeviceInterests(_ call: CAPPluginCall) {
         try? self.beamsClient.clearDeviceInterests()
-        call.success([
-            "interests": interests
-        ])
+        call.success()
     }
 }
