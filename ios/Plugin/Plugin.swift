@@ -12,6 +12,7 @@ public class PusherBeams: CAPPlugin {
     
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
+        print("echo func in iOS success!")
         call.success([
             "value": value
         ])
@@ -54,6 +55,9 @@ public class PusherBeams: CAPPlugin {
           }
 
           print("Successfully authenticated with Pusher Beams")
+          call.success([
+            "associatedUser": userId
+          ])
         })
     }
     
