@@ -11,10 +11,10 @@ export interface PusherBeamsPlugin {
   removeDeviceInterest(options: { interest: string }): Promise<{ success: boolean }>;
   // getDeviceInterests(options: { interests: Array<String> }): Promise<{ interests: Array<String> }>;
   // setDeviceInterests(): Promise<{ success: boolean }>;
-  // clearDeviceInterests(): Promise<{ success: boolean }>;
+  clearDeviceInterests(): Promise<{ success: boolean }>;
   // setOnDeviceInterestsChangedListener(): Promise<{ success: boolean }>;
   // setOnMessageReceivedListenerForVisibleActivity(): Promise<{ success: boolean }>;
   setUserID(options: { beamsAuthURL: string, userID: string, headers: JSON }): Promise<{message: string } | string>;
-  // clearAllState(): Promise<{ success: boolean }>;
+  clearAllState(): Promise<{ success: boolean }>;
   // stop(): Promise<{ success: boolean }>;
 }

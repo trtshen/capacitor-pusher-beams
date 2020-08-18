@@ -8,6 +8,7 @@ import PushNotifications
  */
 @objc(PusherBeams)
 public class PusherBeams: CAPPlugin {
+    let beamUrl = "test.com"
     let beamsClient = PushNotifications.shared
     
     @objc func echo(_ call: CAPPluginCall) {
@@ -41,7 +42,7 @@ public class PusherBeams: CAPPlugin {
     
     @objc func setUserId(_ call: CAPPluginCall) {
         let userId = call.getString("userId") ?? ""
-        let tokenProvider = BeamsTokenProvider(authURL: "<YOUR_BEAMS_AUTH_URL_HERE>") { () -> AuthData in
+        let tokenProvider = BeamsTokenProvider(authURL: self.beamUrl) { () -> AuthData in
           let sessionToken = "SESSION-TOKEN"
           let headers = ["Authorization": "Bearer \(sessionToken)"] // Headers your auth endpoint needs
           let queryParams: [String: String] = [:] // URL query params your auth endpoint needs
@@ -76,6 +77,14 @@ public class PusherBeams: CAPPlugin {
     
     @objc func clearDeviceInterests(_ call: CAPPluginCall) {
         try? self.beamsClient.clearDeviceInterests()
+        print("Cleared device interests!")
+        call.success()
+    }
+    
+    @objc func clearAllState(_ call: CAPPluginCall) {
+        self.beamsClient.clearAllState {
+          print("state cleared")
+        }
         call.success()
     }
 }

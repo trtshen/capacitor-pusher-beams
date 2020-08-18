@@ -11,4 +11,5 @@ CAP_PLUGIN(PusherBeams, "PusherBeams",
            CAP_PLUGIN_METHOD(removeDeviceInterest, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getDeviceInterests, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(clearDeviceInterests, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(clearAllState, CAPPluginReturnPromise);
 )
